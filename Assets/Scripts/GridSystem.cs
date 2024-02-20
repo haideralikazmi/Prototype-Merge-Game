@@ -45,8 +45,9 @@ namespace Grid{
                     cell.SetCellPosition(position);
                     grid[i, j] = cell;
 
-                    Instantiate(baseTile, position, Quaternion.identity, gridParent.transform);
-                    cell.AddTile(baseTile);
+                    var tile = Instantiate(baseTile, position, Quaternion.identity, gridParent.transform);
+                    tile.InitializeTile();
+                    cell.AddTile(tile);
                 }
             }
         }

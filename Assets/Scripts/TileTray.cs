@@ -25,10 +25,10 @@ namespace Tray{
             {
                 var randomNumber = Random.Range(1, 3);
                 var tileNumber = Mathf.Abs(randomNumber);
-                Instantiate(tile, position, Quaternion.identity, trayObject.transform);
-                tile.InitializeTile(tileNumber);
-                position = tile.GetTilePosition();
-                tileStack.Push(tile);
+                var newTile = Instantiate(tile, position, Quaternion.identity, trayObject.transform);
+                newTile.InitializeTile(tileNumber);
+                position = newTile.GetTilePosition();
+                tileStack.Push(newTile);
                 position += new Vector3(0, offset, 0);
             }
 
@@ -37,6 +37,10 @@ namespace Tray{
         void ITileTray.GenerateTray()
         {
             GenerateTileStack();
+        }
+
+        private void Start(){
+        GenerateTileStack();
         }
 
     }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23796240885574872}
   - component: {fileID: 64116188533934094}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: Hexagon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf051fba995609b459f0eb4baf4bb478, type: 2}
+  - {fileID: 2100000, guid: 8bd0fb67b8f941a4d9b75589bbf8f87b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -7,7 +7,7 @@ namespace Grid{
         [SerializeField] private Transform tileTransform;
         public TileType HexType { get; private set; }
 
-        public void InitializeTile(int type)
+        public void InitializeTile(int type = 0)
         {
             SetAppearance(type);
         }
@@ -27,7 +27,7 @@ namespace Grid{
                     tileRenderer.material.color = Color.blue;
                     break;
                 default:
-                    tileRenderer.material.color = Color.white;
+                    tileRenderer.material.color = Color.grey;
                     break;
             }
         }
@@ -41,7 +41,7 @@ namespace Grid{
 
 public enum TileType
 {
-    Empty,
+    Empty=0,
     Red,
     Green,
     Blue
