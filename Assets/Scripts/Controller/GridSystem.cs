@@ -54,7 +54,6 @@ namespace Grid
 
                     var tile = Instantiate(baseTile, position, Quaternion.identity, gridParent.transform);
                     tile.InitializeTile();
-                    cell.AddTile(tile);
                 }
             }
         }
