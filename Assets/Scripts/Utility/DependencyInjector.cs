@@ -9,6 +9,7 @@ public class DependencyInjector : MonoBehaviour
 
     private void Awake()
     {
-
+        tileTray.Grid = gridSystem;
+        gridSystem.TileTray = tileTray;
     }
 }

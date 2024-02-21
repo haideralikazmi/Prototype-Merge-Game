@@ -15,6 +15,16 @@ namespace Grid
             tileStack.Push(tile);
         }
 
+        public bool CanAddNewTile()
+        {
+            if (tileStack.Count > 3)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void RemoveTile(Tile tile)
         {
             tileStack.Pop();
@@ -33,6 +43,11 @@ namespace Grid
         public void SetCellPosition(Vector3 value)
         {
             cellPosition = value;
+        }
+
+        public Vector3 GetCellPosition()
+        {
+            return cellPosition;
         }
     }
 }

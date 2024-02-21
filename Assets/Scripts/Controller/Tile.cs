@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 namespace Grid{
     public class Tile : MonoBehaviour
@@ -35,6 +36,16 @@ namespace Grid{
         public Vector3 GetTilePosition()
         {
             return tileTransform.position;
+        }
+
+        public void MoveToPosition(Vector3 newPosition)
+        {
+            transform.DOJump(newPosition, 0.45f, 1, 0.5f, false);
+        }
+
+        public void ReparentObject(Transform parent)
+        {
+            transform.SetParent(parent);
         }
     }
 }
