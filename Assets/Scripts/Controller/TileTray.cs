@@ -1,13 +1,14 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using Random=UnityEngine.Random;
+using Random = UnityEngine.Random;
 using Grid;
 using System.Linq;
 using DG.Tweening;
 using System;
 
-namespace Tray{
+namespace Tray
+{
 
     public class TileTray : MonoBehaviour, ITileTray
     {
@@ -16,13 +17,13 @@ namespace Tray{
         [SerializeField] private Tile tile;
         [SerializeField] private float tileOffset = 1f;
         [SerializeField] private int maxTileCount = 5;
-       
+
         [SerializeField] private float dragSpeed = 1.0f;
         private bool isDragging = false;
         private Vector3 offset;
 
         private Stack<Tile> tileStack = new Stack<Tile>();
-        public IGrid Grid {get;set;}
+        public IGrid Grid { get; set; }
         private Vector3 originalTrayPosition;
 
         private void GenerateTileStack()
@@ -46,7 +47,7 @@ namespace Tray{
 
         private void Start()
         {
-            originalTrayPosition= transform.position;
+            originalTrayPosition = transform.position;
             GenerateTileStack();
         }
 
@@ -92,7 +93,7 @@ namespace Tray{
                 return true;
             }
             Debug.Log("Collider is null");
-            return false;
+            return true;
         }
 
         private void OnTrayReleased()
@@ -116,7 +117,7 @@ namespace Tray{
 
         private void ResetTrayPosition(Action callback)
         {
-            transform.DOMove(originalTrayPosition, 0.35f, false).OnStepComplete(()=>callback.Invoke());
+            transform.DOMove(originalTrayPosition, 0.35f, false).OnStepComplete(() => callback.Invoke());
         }
 
         void ITileTray.GenerateTray()

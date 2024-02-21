@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-namespace Grid{
+namespace Grid
+{
     public class Tile : MonoBehaviour
     {
         [SerializeField] private Renderer tileRenderer;
@@ -11,6 +12,16 @@ namespace Grid{
         public void InitializeTile(int type = 0)
         {
             SetAppearance(type);
+        }
+
+        public bool IsSameType(TileType type)
+        {
+            if (type == HexType)
+            {
+                return true;
+            }
+            return false;
+
         }
 
 
@@ -52,7 +63,7 @@ namespace Grid{
 
 public enum TileType
 {
-    Empty=0,
+    Empty = 0,
     Red,
     Green,
     Blue

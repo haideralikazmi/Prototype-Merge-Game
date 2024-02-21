@@ -25,7 +25,7 @@ namespace Grid
             return true;
         }
 
-        public void RemoveTile(Tile tile)
+        public void RemoveTile()
         {
             tileStack.Pop();
         }
@@ -49,5 +49,42 @@ namespace Grid
         {
             return cellPosition;
         }
+
+          public Tile PeekTopTile()
+    {
+        return tileStack.Count > 0 ? tileStack.Peek() : null;
     }
+
+    public bool HasMatchingTopTile(Cell otherCell)
+    {
+        Tile thisTopTile = PeekTopTile();
+        Tile otherTopTile = otherCell.PeekTopTile();
+        return thisTopTile != null && otherTopTile != null && thisTopTile.IsSameType(otherTopTile.HexType);
+    }
+
+    public void DestroyMatchingTilesInAdjacentCells(List<Cell> adjacentCells)
+    {
+        foreach (var adjacentCell in adjacentCells)
+        {
+            if (HasMatchingTopTile(adjacentCell))
+            {
+                DestroyMatchingTopTiles(adjacentCell);
+                adjacentCell.DestroyMatchingTilesInAdjacentCells(adjacentCells);
+            }
+        }
+    }
+
+    private void DestroyMatchingTopTiles(Cell otherCell)
+    {
+        Tile thisTopTile = PeekTopTile();
+        Tile otherTopTile = otherCell.PeekTopTile();
+        if (thisTopTile.IsSameType(otherTopTile.HexType))
+        {
+            RemoveTile();
+            otherCell.RemoveTile();
+            Destroy(thisTopTile.gameObject);
+            Destroy(otherTopTile.gameObject);
+        }
+    }
+}
 }
