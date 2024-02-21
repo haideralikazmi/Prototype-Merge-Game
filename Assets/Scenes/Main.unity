@@ -153,11 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseTile: {fileID: -4889616853197217965, guid: 98811d4372267db4b80c0e08836a016d, type: 3}
-  length: 4
   cell: {fileID: 1103099312}
   mainCamera: {fileID: 963194227}
   gridParent: {fileID: 1576913122}
-  offset: 0.75
 --- !u!4 &132762914
 Transform:
   m_ObjectHideFlags: 0
@@ -587,7 +585,7 @@ MonoBehaviour:
   tile: {fileID: -4889616853197217965, guid: 98811d4372267db4b80c0e08836a016d, type: 3}
   tileOffset: 0.23
   maxTileCount: 5
-  dragSpeed: 20
+  dragSpeed: 30
 --- !u!65 &1188767057
 BoxCollider:
   m_ObjectHideFlags: 0
