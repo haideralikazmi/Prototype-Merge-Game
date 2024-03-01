@@ -3,6 +3,12 @@ using DG.Tweening;
 
 namespace Grid
 {
+
+    /*
+        The tile class represents a single hexagonal tile that can be placed on the grid.
+        It is responsilbe for maintaining the type and location of the tile.
+    */
+
     public class Tile : MonoBehaviour
     {
         [SerializeField] private Renderer tileRenderer;
@@ -13,17 +19,6 @@ namespace Grid
         {
             SetAppearance(type);
         }
-
-        public bool IsSameType(TileType type)
-        {
-            if (type == HexType)
-            {
-                return true;
-            }
-            return false;
-
-        }
-
 
         public void SetAppearance(int type)
         {
@@ -58,8 +53,20 @@ namespace Grid
         {
             transform.SetParent(parent);
         }
+
+        public bool IsSameType(TileType type)
+        {
+            if (type == HexType)
+            {
+                return true;
+            }
+            return false;
+
+        }
     }
 }
+
+
 
 public enum TileType
 {

@@ -9,6 +9,12 @@ using System;
 
 namespace Tray
 {
+    
+    /*
+        The tile tray class is repsonsible for generating a new random stack of tiles.
+        The tray carries the stack of tiles to the desired position via user touch input and informs the grid system to place the tile stack once
+        the user lets go of the touch controls
+    */
 
     public class TileTray : MonoBehaviour, ITileTray
     {
@@ -17,14 +23,26 @@ namespace Tray
         [SerializeField] private Tile tile;
         [SerializeField] private float tileOffset = 1f;
         [SerializeField] private int maxTileCount = 5;
-
         [SerializeField] private float dragSpeed = 1.0f;
+
         private bool isDragging = false;
         private Vector3 offset;
-
         private Stack<Tile> tileStack = new Stack<Tile>();
-        public IGrid Grid { get; set; }
         private Vector3 originalTrayPosition;
+        
+        public IGrid Grid { get; set; }
+
+
+        private void Start()
+        {
+            StoreOriginalTrayPosition();
+            GenerateTileStack();
+        }
+
+        private void Update()
+        {
+            OnTouchInput();
+        }
 
         private void GenerateTileStack()
         {
@@ -42,27 +60,20 @@ namespace Tray
                 tileStack.Push(newTile);
                 position += new Vector3(0, tileOffset, 0);
             }
-
         }
 
-        private void Start()
-        {
-            originalTrayPosition = transform.position;
-            GenerateTileStack();
-        }
-
-        private void Update()
+        private void OnTouchInput()
         {
             if (Input.touchCount > 0)
             {
-                Touch touch = Input.GetTouch(0);
+                var touch = Input.GetTouch(0);
 
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
                         if (IsTouchingTray(touch.position))
                         {
-                            offset = transform.position - Camera.main.ScreenToWorldPoint(touch.position);
+                            offset = transform.position - mainCamera.ScreenToWorldPoint(touch.position);
                             isDragging = true;
                         }
                         break;
@@ -70,7 +81,7 @@ namespace Tray
                     case TouchPhase.Moved:
                         if (isDragging)
                         {
-                            Vector3 targetPosition = Camera.main.ScreenToWorldPoint(touch.position) + offset;
+                            var targetPosition = mainCamera.ScreenToWorldPoint(touch.position) + offset;
                             targetPosition.y = transform.position.y;
                             transform.position = Vector3.Lerp(transform.position, targetPosition, dragSpeed * Time.deltaTime);
                         }
@@ -107,7 +118,6 @@ namespace Tray
                 ClearTray();
                 GenerateTileStack();
             });
-
         }
 
         private void ClearTray()
@@ -118,6 +128,11 @@ namespace Tray
         private void ResetTrayPosition(Action callback)
         {
             transform.DOMove(originalTrayPosition, 0.35f, false).OnStepComplete(() => callback.Invoke());
+        }
+
+        private void StoreOriginalTrayPosition()
+        {
+            originalTrayPosition = transform.position;
         }
 
         void ITileTray.GenerateTray()
