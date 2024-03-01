@@ -22,46 +22,63 @@ namespace Grid
 
         public ITileTray TileTray { get; set; }
 
-        public void GenerateGrid()
-        {
-            grid = new Cell[width, length];
-
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < length; j++)
-                {
-                    var xPos = 0f;
-                    var yPos = 0f;
-
-                    if (j % 2 == 0)
-                    {
-                        xPos = i * rowDistance;
-                        yPos = j * columnDistance;
-                    }
-                    else
-                    {
-                        xPos = i * rowDistance + rowDistance / 2;
-                        yPos = j * columnDistance;
-                    }
-
-                    var position = new Vector3(xPos, 0, yPos);
-
-                    cell = new Cell();
-                    cell.SetXCoordinate(i);
-                    cell.SetYCoordinate(j);
-                    cell.SetCellPosition(position);
-                    grid[i, j] = cell;
-
-                    var tile = Instantiate(baseTile, position, Quaternion.identity, gridParent.transform);
-                    tile.InitializeTile();
-                }
-            }
-        }
+        /*
+            Generates a grid of hexagonal tiles and spawns them into the scene in a honeycomb pattern
+        */
 
         private void Start()
         {
             GenerateGrid();
         }
+
+        public void GenerateGrid()
+        {
+            grid = new Cell[width, length];
+            var xPos = 0f;
+            var yPos = 0f;
+
+            for (int rowIndex = 0; rowIndex < width; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < length; columnIndex++)
+                {
+                    if (columnIndex % 2 == 0)
+                    {
+                        xPos = rowIndex * rowDistance;
+                        yPos = columnIndex * columnDistance;
+                    }
+                    else
+                    {
+                        xPos = rowIndex * rowDistance + rowDistance / 2;
+                        yPos = columnIndex * columnDistance;
+                    }
+
+                    var position = new Vector3(xPos, 0, yPos);
+                    grid[rowIndex, columnIndex] = CreateNewCell(rowIndex,columnIndex,position);
+                    SpawnTile(position);
+                }
+            }
+        }
+
+        private Cell CreateNewCell(int rowIndex, int columnIndex, Vector3 position)
+        {
+            cell = new Cell();
+            cell.SetXCoordinate(rowIndex);
+            cell.SetYCoordinate(columnIndex);
+            cell.SetCellPosition(position);
+            return cell;
+        }
+
+        private void SpawnTile(Vector3 position)
+        {
+            var tile = Instantiate(baseTile, position, Quaternion.identity, gridParent.transform);
+            tile.InitializeTile();
+        }
+
+
+        /*
+            Interface implementation to drop and move incoming tilestack to closest cell on the grid incase player lets go of the tilestack in hand.
+            Flips the tilestack before dropping it on the grid cell
+        */
 
         bool IGrid.OnTrayReleased(Vector3 trayPosition, Stack<Tile> block)
         {
@@ -89,9 +106,12 @@ namespace Grid
             return false;
         }
 
+        /*
+            Destroys tiles on the neighbouring cells incase they match the tile type in the newly dropped tilestack.
+        */
+
         private void CheckAndDestroyMatchingTiles(Vector2Int cellIndex)
         {
-        
             Vector2Int[] adjacentIndices =
             {
                 new Vector2Int(cellIndex.x - 1, cellIndex.y),     
@@ -100,7 +120,6 @@ namespace Grid
                 new Vector2Int(cellIndex.x, cellIndex.y + 1)  
             };
 
-           
             foreach (var adjacentIndex in adjacentIndices)
             {
                 
