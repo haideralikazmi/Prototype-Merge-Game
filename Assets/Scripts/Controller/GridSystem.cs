@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace Grid
 {
-
     public class GridSystem : MonoBehaviour, IGrid
     {
         [SerializeField] private Tile baseTile;
@@ -62,8 +61,6 @@ namespace Grid
         private Cell CreateNewCell(int rowIndex, int columnIndex, Vector3 position)
         {
             cell = new Cell();
-            cell.SetXCoordinate(rowIndex);
-            cell.SetYCoordinate(columnIndex);
             cell.SetCellPosition(position);
             return cell;
         }
@@ -76,7 +73,7 @@ namespace Grid
 
 
         /*
-            Interface implementation to drop and move incoming tilestack to closest cell on the grid incase player lets go of the tilestack in hand.
+            Interface handler for grid to drop and move incoming tilestack to closest cell on the grid incase player lets go of the tilestack in hand.
             Flips the tilestack before dropping it on the grid cell
         */
 

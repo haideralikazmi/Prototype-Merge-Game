@@ -2,6 +2,7 @@
 using UnityEngine;
 using Tray;
 using Grid;
+
 public class DependencyInjector : MonoBehaviour
 {
     [SerializeField] private TileTray tileTray;

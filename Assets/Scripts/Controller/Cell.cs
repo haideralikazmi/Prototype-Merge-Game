@@ -3,10 +3,13 @@ using System.Collections.Generic;
 
 namespace Grid
 {
+    /*
+        The cell class represents an individual cell on the grid.
+        It is resposible for maitaining the stack of tiles placed on the cell.
+    */
+
     public class Cell : MonoBehaviour
     {
-        private int gridX;
-        private int gridY;
         private Vector3 cellPosition;
         private Stack<Tile> tileStack = new Stack<Tile>();
 
@@ -30,16 +33,6 @@ namespace Grid
             tileStack.Pop();
         }
 
-        public void SetXCoordinate(int value)
-        {
-            gridX = value;
-        }
-
-        public void SetYCoordinate(int value)
-        {
-            gridY = value;
-        }
-
         public void SetCellPosition(Vector3 value)
         {
             cellPosition = value;
@@ -60,31 +53,6 @@ namespace Grid
         Tile thisTopTile = PeekTopTile();
         Tile otherTopTile = otherCell.PeekTopTile();
         return thisTopTile != null && otherTopTile != null && thisTopTile.IsSameType(otherTopTile.HexType);
-    }
-
-    public void DestroyMatchingTilesInAdjacentCells(List<Cell> adjacentCells)
-    {
-        foreach (var adjacentCell in adjacentCells)
-        {
-            if (HasMatchingTopTile(adjacentCell))
-            {
-                DestroyMatchingTopTiles(adjacentCell);
-                adjacentCell.DestroyMatchingTilesInAdjacentCells(adjacentCells);
-            }
-        }
-    }
-
-    private void DestroyMatchingTopTiles(Cell otherCell)
-    {
-        Tile thisTopTile = PeekTopTile();
-        Tile otherTopTile = otherCell.PeekTopTile();
-        if (thisTopTile.IsSameType(otherTopTile.HexType))
-        {
-            RemoveTile();
-            otherCell.RemoveTile();
-            Destroy(thisTopTile.gameObject);
-            Destroy(otherTopTile.gameObject);
-        }
     }
 }
 }
